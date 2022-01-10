@@ -7,6 +7,8 @@ import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -20,6 +22,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
+        Optional<UserEntity> optUser = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
+        if(optUser.isPresent()) {
+            throw new RuntimeException();
+        }
+
         userDto.setEncryptedPassword("test");
         userDto.setUserId("testUserId");
 
