@@ -4,6 +4,7 @@ import com.example.restws.dto.UserDto;
 import com.example.restws.entity.UserEntity;
 import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
+import com.example.restws.util.UsernameGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final UsernameGenerator usernameGenerator;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, UsernameGenerator usernameGenerator) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.usernameGenerator = usernameGenerator;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userDto.setEncryptedPassword("test");
-        userDto.setUserId("testUserId");
+        userDto.setUserId(usernameGenerator.generateUserId(15));
 
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
         userEntity = userRepository.save(userEntity);
