@@ -7,3 +7,10 @@ spring:
     url: jdbc:mysql://localhost:3306/udemy?useSSL=false&allowPublicKeyRetrieval=true&maxReconnects=3&useLegacyDatetimeCode=false&serverTimezone=Africa/Lagos&jdbcCompliantTruncation=false
     username: root
     password: mayonnaise
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl:
+        auto: update
