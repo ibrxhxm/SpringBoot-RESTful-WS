@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/hibernate?useSSL=false&allowPublicKeyRetrieval=true&maxReconnects=3&useLegacyDatetimeCode=false&serverTimezone=Africa/Lagos&jdbcCompliantTruncation=false
+    url: jdbc:mysql://localhost:3306/udemy?useSSL=false&allowPublicKeyRetrieval=true&maxReconnects=3&useLegacyDatetimeCode=false&serverTimezone=Africa/Lagos&jdbcCompliantTruncation=false
     username: root
     password: mayonnaise
