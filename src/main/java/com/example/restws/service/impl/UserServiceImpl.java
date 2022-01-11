@@ -6,6 +6,7 @@ import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
 import com.example.restws.util.UsernameGenerator;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +17,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final UsernameGenerator usernameGenerator;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, UsernameGenerator usernameGenerator) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, UsernameGenerator usernameGenerator, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.usernameGenerator = usernameGenerator;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException();
         }
 
-        userDto.setEncryptedPassword("test");
+        userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userDto.setUserId(usernameGenerator.generateUserId(15));
 
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
