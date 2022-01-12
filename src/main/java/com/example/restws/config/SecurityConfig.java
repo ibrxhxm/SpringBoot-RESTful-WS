@@ -33,6 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilter(new AuthenticationFilter(authenticationManager()));
+                .addFilter(getAuthenticationFilter());
+    }
+
+    public AuthenticationFilter getAuthenticationFilter() throws Exception {
+        final AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager());
+        authenticationFilter.setFilterProcessesUrl("/auth");
+
+        return authenticationFilter;
     }
 }
