@@ -48,6 +48,6 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByEmail(email));
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
 
-        return modelMapper.map(userEntity, UserDto.class)
+        return modelMapper.map(userEntity, UserDto.class);
     }
 }
