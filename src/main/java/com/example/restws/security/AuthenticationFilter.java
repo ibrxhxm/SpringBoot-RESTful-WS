@@ -2,6 +2,7 @@ package com.example.restws.security;
 
 import com.example.restws.SpringApplicationContext;
 import com.example.restws.constants.SecurityConstants;
+import com.example.restws.dto.UserDto;
 import com.example.restws.request.LoginRequest;
 import com.example.restws.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,7 +52,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(username);
 
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader("User ID", userDto.getUserId());
     }
 }
