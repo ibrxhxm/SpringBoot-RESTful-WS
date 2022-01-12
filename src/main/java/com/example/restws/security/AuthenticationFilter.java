@@ -1,7 +1,9 @@
 package com.example.restws.security;
 
+import com.example.restws.SpringApplicationContext;
 import com.example.restws.constants.SecurityConstants;
 import com.example.restws.request.LoginRequest;
+import com.example.restws.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,6 +49,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
+
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
 
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
     }

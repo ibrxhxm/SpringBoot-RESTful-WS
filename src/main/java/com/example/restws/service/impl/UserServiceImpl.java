@@ -6,6 +6,7 @@ import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
 import com.example.restws.util.UsernameGenerator;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,13 @@ public class UserServiceImpl implements UserService {
         userEntity = userRepository.save(userEntity);
 
         return modelMapper.map(userEntity, UserDto.class);
+    }
+
+    @Override
+    public UserDto getUser(String email) {
+        Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByEmail(email));
+        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
+
+        return modelMapper.map(userEntity, UserDto.class)
     }
 }
