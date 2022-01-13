@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.Optional;
 
 @Service
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         Optional<UserEntity> optUser = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
         if(optUser.isPresent()) {
-            throw new RuntimeException();
+            throw new EntityExistsException("user already exists");
         }
 
         userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -46,6 +47,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUser(String email) {
         Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByEmail(email));
+        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
+
+        return modelMapper.map(userEntity, UserDto.class);
+    }
+
+    @Override
+    public UserDto getUserDetails(String userId) {
+        Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
 
         return modelMapper.map(userEntity, UserDto.class);
