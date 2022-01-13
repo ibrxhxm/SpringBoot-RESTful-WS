@@ -1,6 +1,7 @@
 package com.example.restws.config;
 
 import com.example.restws.security.AuthenticationFilter;
+import com.example.restws.security.AuthorizationFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilter(getAuthenticationFilter());
+                .addFilter(getAuthenticationFilter())
+                .addFilter(new AuthorizationFilter(authenticationManager()));
     }
 
     public AuthenticationFilter getAuthenticationFilter() throws Exception {
