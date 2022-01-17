@@ -1,10 +1,28 @@
 package com.example.restws.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserRequest {
 
+    @NotBlank(message = "{required.field}")
+    @NotNull(message = "{notnull.field}")
     private String firstName;
+
+    @NotBlank(message = "{required.field}")
+    @NotNull(message = "{notnull.field}")
     private String lastName;
+
+    @NotBlank(message = "{required.field}")
+    @NotNull(message = "{notnull.field}")
+    @Email
     private String email;
+
+    @NotBlank(message = "{required.field}")
+    @NotNull(message = "{notnull.field}")
+    @Size(min = 1, max = 7, message = "{invalid.field}")
     private String password;
 
     public String getFirstName() {
