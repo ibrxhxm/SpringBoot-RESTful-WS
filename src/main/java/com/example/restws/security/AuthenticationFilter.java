@@ -3,6 +3,7 @@ package com.example.restws.security;
 import com.example.restws.SpringApplicationContext;
 import com.example.restws.constants.SecurityConstants;
 import com.example.restws.dto.UserDto;
+import com.example.restws.exception.ErrorMessage;
 import com.example.restws.request.LoginRequest;
 import com.example.restws.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new com.example.restws.exception.AuthenticationException(ErrorMessage.AUTHENTICATION_FAILED.getErrorMessage());
         }
     }
 

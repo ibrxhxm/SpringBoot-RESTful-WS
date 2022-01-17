@@ -1,6 +1,8 @@
 package com.example.restws.service.impl;
 
 import com.example.restws.entity.UserEntity;
+import com.example.restws.exception.AuthenticationException;
+import com.example.restws.exception.ErrorMessage;
 import com.example.restws.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> optionalUserEntity = Optional.ofNullable(userRepository.findByEmail(email));
 
-        UserEntity userEntity = optionalUserEntity.orElseThrow(() -> new UsernameNotFoundException("incorrect username or password"));
+        UserEntity userEntity = optionalUserEntity.orElseThrow(() -> new AuthenticationException(ErrorMessage.INVALID_USERNAME_PASSWORD.getErrorMessage()));
 
         return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
     }
