@@ -1,6 +1,7 @@
 package com.example.restws.controller;
 
 import com.example.restws.dto.UserDto;
+import com.example.restws.request.EditUserRequest;
 import com.example.restws.request.UserRequest;
 import com.example.restws.response.UserResponse;
 import com.example.restws.service.UserService;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody @Valid UserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody @Valid EditUserRequest userRequest) {
         UserDto userDto = modelMapper.map(userRequest, UserDto.class);
         userDto.setUserId(id);
         userDto = userService.updateUser(userDto);
