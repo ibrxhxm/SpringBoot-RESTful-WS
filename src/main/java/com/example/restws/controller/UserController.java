@@ -38,7 +38,7 @@ public class UserController {
         userDto.setUserId(id);
         userDto = userService.updateUser(userDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(modelMapper.map(userDto, UserResponse.class));
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(modelMapper.map(userDto, UserResponse.class));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
