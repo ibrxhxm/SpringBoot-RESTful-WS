@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateuser(UserDto userDto) {
+    public UserDto updateUser(UserDto userDto) {
         UserDto oldUserDto = abortIfUserDoesNotExist(userDto.getUserId());
         modelMapper.map(userDto, oldUserDto);
 

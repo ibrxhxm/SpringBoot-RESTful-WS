@@ -5,7 +5,7 @@ import com.example.restws.dto.UserDto;
 public interface UserService {
     UserDto createUser(UserDto userDto);
 
-    UserDto updateuser(UserDto userDto);
+    UserDto updateUser(UserDto userDto);
 
     UserDto getUser (String email);
 
