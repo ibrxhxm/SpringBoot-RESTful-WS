@@ -48,6 +48,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto updateuser(UserDto userDto) {
+        UserDto oldUserDto = abortIfUserDoesNotExist(userDto.getUserId());
+        modelMapper.map(userDto, oldUserDto);
+
+        return modelMapper.map(userRepository.save(modelMapper.map(userDto, UserEntity.class)), UserDto.class);
+    }
+
+    @Override
     public UserDto getUser(String email) {
         Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByEmail(email));
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
@@ -60,6 +68,13 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserNotFoundException(ErrorMessage.NO_RECORD_FOUND.getErrorMessage()));
 
+        return modelMapper.map(userEntity, UserDto.class);
+    }
+
+    private UserDto abortIfUserDoesNotExist(String userId) {
+        Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
+
+        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage()));
         return modelMapper.map(userEntity, UserDto.class);
     }
 }
