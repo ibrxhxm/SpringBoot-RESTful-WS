@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import java.util.Optional;
 
 @Service
@@ -39,8 +38,6 @@ public class UserServiceImpl implements UserService {
         }
 
         userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        userDto.setUserId(usernameGenerator.generateUserId(15));
-
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
         userEntity = userRepository.save(userEntity);
 
@@ -49,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto) {
-        UserDto oldUserDto = abortIfUserDoesNotExist(userDto.getUserId());
+        UserDto oldUserDto = abortIfUserDoesNotExist(userDto.getId());
         modelMapper.map(userDto, oldUserDto);
 
-        return modelMapper.map(userRepository.save(modelMapper.map(userDto, UserEntity.class)), UserDto.class);
+        return modelMapper.map(userRepository.save(modelMapper.map(oldUserDto, UserEntity.class)), UserDto.class);
     }
 
     @Override
@@ -64,15 +61,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserDetails(String userId) {
-        Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
+    public UserDto getUserDetails(Long id) {
+        Optional<UserEntity> optUserEntity = userRepository.findById(id);
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserNotFoundException(ErrorMessage.NO_RECORD_FOUND.getErrorMessage()));
 
         return modelMapper.map(userEntity, UserDto.class);
     }
 
-    private UserDto abortIfUserDoesNotExist(String userId) {
-        Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
+    private UserDto abortIfUserDoesNotExist(Long id) {
+        Optional<UserEntity> optUserEntity = userRepository.findById(id);
 
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage()));
         return modelMapper.map(userEntity, UserDto.class);

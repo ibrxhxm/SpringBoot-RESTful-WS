@@ -34,16 +34,16 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody @Valid EditUserRequest userRequest) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") Long id, @RequestBody @Valid EditUserRequest userRequest) {
         UserDto userDto = modelMapper.map(userRequest, UserDto.class);
-        userDto.setUserId(id);
+        userDto.setId(id);
         userDto = userService.updateUser(userDto);
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(modelMapper.map(userDto, UserResponse.class));
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponse> getUser(@PathVariable("id") String id) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long id) {
         UserResponse userResponse = modelMapper.map(userService.getUserDetails(id), UserResponse.class);
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(userResponse);

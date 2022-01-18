@@ -1,17 +1,17 @@
 package com.example.restws.response;
 
 public class UserResponse {
-    private String userId;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {

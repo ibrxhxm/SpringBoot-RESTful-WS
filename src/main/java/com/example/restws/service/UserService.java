@@ -9,5 +9,5 @@ public interface UserService {
 
     UserDto getUser (String email);
 
-    UserDto getUserDetails(String userId);
+    UserDto getUserDetails(Long id);
 }

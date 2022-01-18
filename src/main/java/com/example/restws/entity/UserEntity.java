@@ -10,9 +10,6 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private String userId;
-
     @Column(nullable = false, length = 25)
     private String firstName;
 
@@ -34,14 +31,6 @@ public class UserEntity implements Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getFirstName() {
