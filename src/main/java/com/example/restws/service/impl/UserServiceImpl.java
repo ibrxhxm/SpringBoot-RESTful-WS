@@ -2,6 +2,9 @@ package com.example.restws.service.impl;
 
 import com.example.restws.dto.UserDto;
 import com.example.restws.entity.UserEntity;
+import com.example.restws.exception.ErrorMessage;
+import com.example.restws.exception.UserAlreadyExistsException;
+import com.example.restws.exception.UserNotFoundException;
 import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
 import com.example.restws.util.UsernameGenerator;
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         Optional<UserEntity> optUser = Optional.ofNullable(userRepository.findByEmail(userDto.getEmail()));
         if(optUser.isPresent()) {
-            throw new EntityExistsException("user already exists");
+            throw new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage());
         }
 
         userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -55,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserDetails(String userId) {
         Optional<UserEntity> optUserEntity = Optional.ofNullable(userRepository.findByUserId(userId));
-        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UsernameNotFoundException("invalid user credentials"));
+        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserNotFoundException(ErrorMessage.NO_RECORD_FOUND.getErrorMessage()));
 
         return modelMapper.map(userEntity, UserDto.class);
     }
