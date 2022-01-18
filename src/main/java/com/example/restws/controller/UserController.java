@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String id, @RequestBody @Valid UserRequest userRequest) {
         UserDto userDto = modelMapper.map(userRequest, UserDto.class);
         userDto.setUserId(id);
-        userDto = userService.u;
+        userDto = userService.updateUser(userDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(modelMapper.map(userDto, UserResponse.class));
     }
