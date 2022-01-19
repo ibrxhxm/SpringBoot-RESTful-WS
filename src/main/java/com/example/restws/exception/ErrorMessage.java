@@ -3,6 +3,7 @@ package com.example.restws.exception;
 public enum ErrorMessage {
     MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for required fields"),
     RECORD_ALREADY_EXISTS("Record already exists"),
+    RECORD_DOES_NOT_EXIST("Record does not exist"),
     INTERNAL_SERVER_ERROR("Internal server error"),
     NO_RECORD_FOUND("Record with provided id is not found"),
     INVALID_USERNAME_PASSWORD("Invalid username or password"),

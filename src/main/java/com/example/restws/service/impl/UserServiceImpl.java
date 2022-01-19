@@ -20,13 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final UsernameGenerator usernameGenerator;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, UsernameGenerator usernameGenerator, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.usernameGenerator = usernameGenerator;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -71,7 +69,7 @@ public class UserServiceImpl implements UserService {
     private UserDto abortIfUserDoesNotExist(Long id) {
         Optional<UserEntity> optUserEntity = userRepository.findById(id);
 
-        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage()));
+        UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserAlreadyExistsException(ErrorMessage.RECORD_DOES_NOT_EXIST.getErrorMessage()));
         return modelMapper.map(userEntity, UserDto.class);
     }
 }
