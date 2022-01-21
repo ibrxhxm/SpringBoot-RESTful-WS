@@ -1,10 +1,19 @@
 package com.example.restws.dto;
 
 public class AddressDTO {
+    private long id;
     private String street;
     private String city;
     private String country;
     private String type;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getStreet() {
         return street;
