@@ -7,13 +7,16 @@ import com.example.restws.exception.UserAlreadyExistsException;
 import com.example.restws.exception.UserNotFoundException;
 import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
-import com.example.restws.util.UsernameGenerator;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -71,5 +74,12 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = optUserEntity.orElseThrow(() -> new UserAlreadyExistsException(ErrorMessage.RECORD_DOES_NOT_EXIST.getErrorMessage()));
         return modelMapper.map(userEntity, UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> getAllUsers(int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+
+        return userRepository.findAll(pageable).getContent().stream().map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
     }
 }
