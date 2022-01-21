@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class UserRequest {
 
@@ -24,6 +25,8 @@ public class UserRequest {
     @NotNull(message = "{notnull.field}")
     @Size(min = 1, max = 7, message = "{invalid.field}")
     private String password;
+
+    private List<AddressRequest> addresses;
 
     public String getFirstName() {
         return firstName;
@@ -55,5 +58,13 @@ public class UserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<AddressRequest> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressRequest> addresses) {
+        this.addresses = addresses;
     }
 }
