@@ -1,11 +1,12 @@
 package com.example.restws.dto;
 
-public class AddressDTO {
+public class AddressDto {
     private long id;
     private String street;
     private String city;
     private String country;
     private String type;
+    private UserDto userDto;
 
     public long getId() {
         return id;
@@ -45,5 +46,13 @@ public class AddressDTO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 }
