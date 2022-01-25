@@ -2,6 +2,7 @@ package com.example.restws.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "user")
 public class UserEntity implements Serializable {
@@ -24,6 +25,9 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     private Boolean emailVerificationStatus = false;
+
+    @OneToMany(mappedBy = "userDto", cascade = CascadeType.ALL)
+    private List<AddressEntity> addresses;
 
     public long getId() {
         return id;
