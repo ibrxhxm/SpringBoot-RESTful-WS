@@ -6,7 +6,7 @@ public class AddressDto {
     private String city;
     private String country;
     private String type;
-    private UserDto userDto;
+    private UserDto user;
 
     public long getId() {
         return id;
@@ -48,11 +48,11 @@ public class AddressDto {
         this.type = type;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }
