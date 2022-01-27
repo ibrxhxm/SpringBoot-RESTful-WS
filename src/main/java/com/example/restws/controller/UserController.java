@@ -7,6 +7,7 @@ import com.example.restws.request.EditUserRequest;
 import com.example.restws.request.UserRequest;
 import com.example.restws.response.AddressResponse;
 import com.example.restws.response.UserResponse;
+import com.example.restws.service.AddressService;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -27,11 +28,12 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final AddressService addressService;
     private final ModelMapper modelMapper;
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, AddressService addressService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.addressService = addressService;
         this.modelMapper = modelMapper;
     }
 
@@ -69,6 +71,6 @@ public class UserController {
     @GetMapping(value = "/{user_id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AddressResponse>> getAllAddresses(@PathVariable("user_id") Long userId) {
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(userService.getAllAddresses(userId).stream().map(x -> modelMapper.map(x, AddressResponse.class)).collect(Collectors.toList()));
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(addressService.getAllAddresses(userId).stream().map(x -> modelMapper.map(x, AddressResponse.class)).collect(Collectors.toList()));
     }
 }

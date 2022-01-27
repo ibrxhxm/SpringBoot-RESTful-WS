@@ -15,6 +15,4 @@ public interface UserService {
     UserDto getUserDetails(Long id);
 
     List<UserDto> getAllUsers(int page, int limit);
-
-    List<AddressDto> getAllAddresses(Long userId);
 }

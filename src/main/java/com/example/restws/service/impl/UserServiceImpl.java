@@ -30,13 +30,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
-        this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -92,13 +90,5 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, limit);
 
         return userRepository.findAll(pageable).getContent().stream().map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public List<AddressDto> getAllAddresses(Long userId) {
-        Type listType = new TypeToken<List<AddressDto>>() {}.getType();
-        List<AddressEntity> addressEntities = addressRepository.findAllByUserId(userId);
-        return modelMapper.map(addressEntities, listType);
     }
 }
