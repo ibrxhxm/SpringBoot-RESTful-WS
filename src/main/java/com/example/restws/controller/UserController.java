@@ -6,6 +6,8 @@ import com.example.restws.request.UserRequest;
 import com.example.restws.response.UserResponse;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class UserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;

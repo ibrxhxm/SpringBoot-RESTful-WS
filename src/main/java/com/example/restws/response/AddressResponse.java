@@ -1,35 +1,17 @@
-package com.example.restws.entity;
+package com.example.restws.response;
 
-
-import javax.persistence.*;
-
-@Entity(name = "address")
-public class AddressEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(length = 100, nullable = false)
+public class AddressResponse {
+    private String id;
     private String street;
-
-    @Column(length = 30, nullable = false)
     private String city;
-
-    @Column(length = 30, nullable = false)
     private String country;
-
-    @Column(length = 30, nullable = false)
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName="id")
-    private UserEntity user;
-
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,13 +45,5 @@ public class AddressEntity {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
     }
 }

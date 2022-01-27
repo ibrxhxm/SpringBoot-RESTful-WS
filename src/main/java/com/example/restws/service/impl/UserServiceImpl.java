@@ -8,12 +8,15 @@ import com.example.restws.exception.UserNotFoundException;
 import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
@@ -38,9 +42,14 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage());
         }
 
+        log.info(userDto.getAddresses().get(0).getCity());
+
         userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
+        log.info(userEntity.getAddresses().get(0).getCountry());
         userEntity = userRepository.save(userEntity);
+
+        log.info(userEntity.getAddresses().get(0).getCountry());
 
         return modelMapper.map(userEntity, UserDto.class);
     }

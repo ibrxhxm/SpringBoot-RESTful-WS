@@ -1,10 +1,13 @@
 package com.example.restws.response;
 
+import java.util.List;
+
 public class UserResponse {
     private String id;
     private String firstName;
     private String lastName;
     private String email;
+    private List<AddressResponse> addresses;
 
     public String getId() {
         return id;
@@ -36,5 +39,13 @@ public class UserResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<AddressResponse> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressResponse> addresses) {
+        this.addresses = addresses;
     }
 }

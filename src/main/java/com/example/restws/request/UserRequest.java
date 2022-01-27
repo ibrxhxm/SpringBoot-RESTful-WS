@@ -1,9 +1,6 @@
 package com.example.restws.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class UserRequest {
@@ -26,6 +23,7 @@ public class UserRequest {
     @Size(min = 1, max = 7, message = "{invalid.field}")
     private String password;
 
+    @NotEmpty(message = "{atleast-one.field}")
     private List<AddressRequest> addresses;
 
     public String getFirstName() {
