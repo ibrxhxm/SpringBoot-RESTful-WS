@@ -80,7 +80,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorDetails details = new ErrorDetails();
         details.setStatus(status.value());
-        details.setMessage("internal server error");
+        details.setMessage(ex.getMessage());
 
         return ResponseEntity.status(status).contentType(MediaType.APPLICATION_JSON).body(details);
     }

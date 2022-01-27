@@ -1,13 +1,17 @@
 package com.example.restws.service.impl;
 
+import com.example.restws.dto.AddressDto;
 import com.example.restws.dto.UserDto;
+import com.example.restws.entity.AddressEntity;
 import com.example.restws.entity.UserEntity;
 import com.example.restws.exception.ErrorMessage;
 import com.example.restws.exception.UserAlreadyExistsException;
 import com.example.restws.exception.UserNotFoundException;
+import com.example.restws.repository.AddressRepository;
 import com.example.restws.repository.UserRepository;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,12 +29,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, AddressRepository addressRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -42,14 +47,9 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException(ErrorMessage.RECORD_ALREADY_EXISTS.getErrorMessage());
         }
 
-        log.info(userDto.getAddresses().get(0).getCity());
-
         userDto.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
-        log.info(userEntity.getAddresses().get(0).getCountry());
         userEntity = userRepository.save(userEntity);
-
-        log.info(userEntity.getAddresses().get(0).getCountry());
 
         return modelMapper.map(userEntity, UserDto.class);
     }
@@ -90,5 +90,12 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(page, limit);
 
         return userRepository.findAll(pageable).getContent().stream().map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AddressDto> getAllAddresses(Long userId) {
+        Type listType = new TypeToken<List<AddressDto>>() {}.getType();
+        List<AddressEntity> addressEntities = addressRepository.findAllByUserId(userId);
+        return modelMapper.map(addressEntities, listType);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.restws.service;
 
+import com.example.restws.dto.AddressDto;
 import com.example.restws.dto.UserDto;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface UserService {
     UserDto getUserDetails(Long id);
 
     List<UserDto> getAllUsers(int page, int limit);
+
+    List<AddressDto> getAllAddresses(Long userId);
 }

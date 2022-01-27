@@ -3,6 +3,7 @@ package com.example.restws.controller;
 import com.example.restws.dto.UserDto;
 import com.example.restws.request.EditUserRequest;
 import com.example.restws.request.UserRequest;
+import com.example.restws.response.AddressResponse;
 import com.example.restws.response.UserResponse;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -59,5 +60,11 @@ public class UserController {
                                                       @RequestParam(value = "limit", defaultValue = "10") int limit) {
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(userService.getAllUsers(page, limit).stream().map(x -> modelMapper.map(x, UserResponse.class)).collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/{user_id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AddressResponse>> getAllAddresses(@PathVariable("user_id") Long userId) {
+
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(userService.getAllAddresses(userId).stream().map(x -> modelMapper.map(x, AddressResponse.class)).collect(Collectors.toList()));
     }
 }
