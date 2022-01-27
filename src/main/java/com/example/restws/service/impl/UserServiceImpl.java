@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
@@ -93,6 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<AddressDto> getAllAddresses(Long userId) {
         Type listType = new TypeToken<List<AddressDto>>() {}.getType();
         List<AddressEntity> addressEntities = addressRepository.findAllByUserId(userId);

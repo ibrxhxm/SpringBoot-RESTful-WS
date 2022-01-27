@@ -1,12 +1,15 @@
 package com.example.restws.controller;
 
+import com.example.restws.dto.AddressDto;
 import com.example.restws.dto.UserDto;
+import com.example.restws.entity.AddressEntity;
 import com.example.restws.request.EditUserRequest;
 import com.example.restws.request.UserRequest;
 import com.example.restws.response.AddressResponse;
 import com.example.restws.response.UserResponse;
 import com.example.restws.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
