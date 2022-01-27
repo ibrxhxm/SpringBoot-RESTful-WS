@@ -1,5 +1,7 @@
 package com.example.restws.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 public class UserResponse {
@@ -7,6 +9,8 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String email;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<AddressResponse> addresses;
 
     public String getId() {

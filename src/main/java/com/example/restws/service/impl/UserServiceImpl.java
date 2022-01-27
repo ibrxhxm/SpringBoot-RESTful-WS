@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserDto> getAllUsers(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
 
